@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { images } from './../../api/images';
 import styles from './Slider.module.sass';
@@ -6,6 +7,7 @@ function Slider () {
   const [currentSlideNumber, setCurrentSlideNumber] = useState(0); //определяю номер слайда
   const [duration, setDuration] = useState(5000); // интервал смены слайдов
   const [isPaused, setIsPaused] = useState(false); // на паузе или нет
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const durationHandler = ({ target: { value } }) => {
     // инпут меняет длину задержки между слайдами
     setDuration(value);
@@ -29,8 +31,19 @@ function Slider () {
   const controlHandler = () => {
     // старт и пауза
     setIsPaused(!isPaused);
-    duration > 10000 ? setDuration(5000) : setDuration(999999); // ставлю 999 минут если пауза :)
+    duration > 10000 ? setDuration(5000) : setDuration(999999); // ставлю 16 минут если пауза :)
   };
+
+  const fullScreenHandler = () => {
+    // при нажатии на фул скрин анимация ставится на паузу
+    setIsFullScreen(!isFullScreen);
+    controlHandler();
+  };
+
+  const fullScreenStyle = classNames(styles.fullScreen, {
+    //стили фул скрин
+    [styles.fullScreenOn]: isFullScreen,
+  });
 
   useEffect(() => {
     // собственно интервал смены слайдов
@@ -39,6 +52,7 @@ function Slider () {
       clearInterval(_);
     };
   });
+
   return (
     <>
       <div className={styles.slidesContainer}>
@@ -46,7 +60,7 @@ function Slider () {
           &#10094;
         </button>
         <div className={styles.imageContainer}>
-          <img src={currentSlide} alt='slide :)' />
+          <img src={currentSlide} alt='slide' />
         </div>
 
         <button className={styles.changeSlide} onClick={nextSlideHandler}>
@@ -80,9 +94,12 @@ function Slider () {
             />
           </>
         )}
-        <button>
+        <button onClick={fullScreenHandler}>
           <i className='fas fa-expand'></i>
         </button>
+      </div>
+      <div className={fullScreenStyle} onClick={fullScreenHandler}>
+        <img src={currentSlide} alt='slide' />
       </div>
     </>
   );

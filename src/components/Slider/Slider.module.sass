@@ -42,3 +42,33 @@
 .controlPanel
   display: flex
   justify-content: space-between
+
+/*****************************/
+
+.fullScreen
+  display: none
+  width: 100% 
+  height: 100%
+  position: absolute
+  z-index: 99
+  left: 0
+  top: 0
+  background-color: rgba(0,0,0,0.4)
+  padding: 50px 0px
+  img
+    height: 100%
+    width: 100%
+    object-fit: contain
+
+.fullScreenOn
+  display: block
+
+
+// .blackout
+//   animation: fade 0.8s
+
+// @keyframes fade
+//   from 
+//     opacity: 0
+//   to
+//     opacity: 1
