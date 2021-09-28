@@ -1,47 +1,63 @@
+// надо сделать медиа запрос
+// и поработать над адаптивностью!!
+  
 .slidesContainer
   position: relative
   height: 600px
   width: 800px
   box-shadow: 0px 0px 10px black
-  background: #e2e2e2
+  background: #f8f8f8
   border-radius: 15px
-  margin: 25px 0px
+  margin: 25px auto
+  overflow: hidden
   
-.changeSlide
+.changeSlideButton
   position: absolute
   top: 45%
   cursor: pointer
   background-color: grey
-  padding: 16px
+  padding: 20px 16px 14px
   color: white
   font-weight: bold
   font-size: 18px
   border-radius: 0 6px 6px 0
   border: none
-  opacity: 0.7
+  opacity: 0.8
   transition: 0.6s ease
   &:hover
     background-color: black
-    padding: 22px
-    font-size: 25px
+    font-size: 28px
     top: 44%
   &:last-of-type
     right: 0
     border-radius: 6px 0 0 6px
-  // сделать медиа запрос
 
- 
 .imageContainer
   height: 100%
   width: 100%
   img
     height: 100%
     width: 100%
-    object-fit: scale-down
+    object-fit: cover
 
 .controlPanel
   display: flex
   justify-content: space-between
+  height: 50px
+  align-items: center
+  width: 95%
+  margin: 5px auto
+  button
+    padding: 7px 14px
+    font-size: 1.4em
+
+.intervalSet
+  display: flex
+  flex-direction: column
+  width: 60%
+  max-width: 300px
+  span
+    margin: 0 auto
 
 /*****************************/
 
@@ -59,16 +75,22 @@
     height: 100%
     width: 100%
     object-fit: contain
+  span
+    position: absolute
+    width: 100%
+    text-align: center
+    color: white
+    top: 1em
 
 .fullScreenOn
   display: block
 
 
-// .blackout
-//   animation: fade 0.8s
+.emergence
+  animation: emergence 1.5s
 
-// @keyframes fade
-//   from 
-//     opacity: 0
-//   to
-//     opacity: 1
+@keyframes emergence
+  from 
+    opacity: 0
+  to
+    opacity: 1
