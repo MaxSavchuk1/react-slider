@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { images } from './images.js';
 import styles from './Slider.module.sass';
+import 'animate.css';
 
 function Slider () {
   const [currentSlideNumber, setCurrentSlideNumber] = useState(0);
@@ -15,16 +16,40 @@ function Slider () {
 
   let currentSlide = images[currentSlideNumber];
 
+  /******* попытка сделать анимацию перехода */
+
+  const [isNextSlide, setIsNextSlide] = useState(false);
+  const [isPrevSlide, setIsPrevSlide] = useState(false);
+  const nextSlideAnimation =
+    'animate__animated animate__fadeOutLeft animate__faster';
+  const prevSlideAnimation =
+    'animate__animated animate__fadeOutRight animate__faster';
+  const imageContainer = classNames(styles.imageContainer, {
+    [nextSlideAnimation]: isNextSlide,
+    [prevSlideAnimation]: isPrevSlide,
+  });
+
   const nextSlideHandler = () => {
-    currentSlideNumber === images.length - 1
-      ? setCurrentSlideNumber(0)
-      : setCurrentSlideNumber(currentSlideNumber + 1);
+    setIsNextSlide(true);
+    setTimeout(() => {
+      setIsNextSlide(false);
+      currentSlideNumber === images.length - 1
+        ? setCurrentSlideNumber(0)
+        : setCurrentSlideNumber(currentSlideNumber + 1);
+    }, 500);
   };
+
   const prevSlideHandler = () => {
-    currentSlideNumber === 0
-      ? setCurrentSlideNumber(images.length - 1)
-      : setCurrentSlideNumber(currentSlideNumber - 1);
+    setIsPrevSlide(true);
+    setTimeout(() => {
+      setIsPrevSlide(false);
+      currentSlideNumber === 0
+        ? setCurrentSlideNumber(images.length - 1)
+        : setCurrentSlideNumber(currentSlideNumber - 1);
+    }, 500);
   };
+
+  /******* экспериментальная разработка. Работает, но с глюками) Кажется, надо разделить стили*/
 
   const controlHandler = () => {
     setIsPaused(!isPaused);
@@ -61,7 +86,7 @@ function Slider () {
             >
               &#10094;
             </button>
-            <div className={styles.imageContainer}>
+            <div className={imageContainer}>
               <img src={currentSlide} alt='slide' />
             </div>
             <button
