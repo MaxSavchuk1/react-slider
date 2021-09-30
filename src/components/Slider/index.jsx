@@ -20,10 +20,8 @@ function Slider () {
 
   const [isNextSlide, setIsNextSlide] = useState(false);
   const [isPrevSlide, setIsPrevSlide] = useState(false);
-  const nextSlideAnimation =
-    'animate__animated animate__fadeOutLeft animate__faster';
-  const prevSlideAnimation =
-    'animate__animated animate__fadeOutRight animate__faster';
+  const nextSlideAnimation = 'animate__animated animate__fadeOutLeft';
+  const prevSlideAnimation = 'animate__animated animate__fadeOutRight';
   const imageContainer = classNames(styles.imageContainer, {
     [nextSlideAnimation]: isNextSlide,
     [prevSlideAnimation]: isPrevSlide,
@@ -36,7 +34,7 @@ function Slider () {
       currentSlideNumber === images.length - 1
         ? setCurrentSlideNumber(0)
         : setCurrentSlideNumber(currentSlideNumber + 1);
-    }, 500);
+    }, 650);
   };
 
   const prevSlideHandler = () => {
@@ -46,7 +44,7 @@ function Slider () {
       currentSlideNumber === 0
         ? setCurrentSlideNumber(images.length - 1)
         : setCurrentSlideNumber(currentSlideNumber - 1);
-    }, 500);
+    }, 650);
   };
 
   /******* Выше экспериментальная разработка. Работает, но с глюками) Кажется, надо разделить стили*/
@@ -69,9 +67,9 @@ function Slider () {
   });
 
   useEffect(() => {
-    const _ = setInterval(nextSlideHandler, duration);
+    const intervalOfChangingSlides = setInterval(nextSlideHandler, duration);
     return () => {
-      clearInterval(_);
+      clearInterval(intervalOfChangingSlides);
     };
   });
 
