@@ -3,28 +3,51 @@ import React, { useEffect, useReducer } from 'react';
 import 'animate.css';
 import { initialState, slidesReducer } from '../../reducers';
 import styles from './Slider.module.sass';
-import ACTION_TYPES from '../../actions/actionTypes';
+import {
+  setNextSlide,
+  setPrevSlide,
+  setDuration,
+  setFullScreen,
+  setPaused,
+} from '../../actions/actionCreators';
+
 function Slider () {
   const [
     { duration, maxDuration, isPaused, isFullScreen, images },
     dispatch,
   ] = useReducer(slidesReducer, initialState);
 
-  // const fullScreenStyle = classNames(styles.fullScreen, {
-  //   [styles.fullScreenOn]: isFullScreen,
-  //   [styles.emergence]: isFullScreen,
-  // });
+  const fullScreenStyle = classNames(styles.fullScreen, {
+    [styles.fullScreenOn]: isFullScreen,
+    [styles.emergence]: isFullScreen,
+  });
 
-  // useEffect(() => {
-  //   const intervalOfChangingSlides = setInterval(nextSlideHandler, duration);
-  //   return () => {
-  //     clearInterval(intervalOfChangingSlides);
-  //   };
-  // });
+  useEffect(() => {
+    const intervalOfChangingSlides = setInterval(nextSlideHandler, duration);
+    return () => {
+      clearInterval(intervalOfChangingSlides);
+    };
+  });
+
+  const prevSlideHandler = () => {
+    dispatch(setPrevSlide());
+  };
+  const nextSlideHandler = () => {
+    dispatch(setNextSlide());
+  };
+  const controlHandler = () => {
+    dispatch(setPaused());
+  };
+  const durationHandler = ({ target: { value } }) => {
+    dispatch(setDuration(value));
+  };
+  const fullScreenHandler = () => {
+    dispatch(setFullScreen());
+  };
 
   return (
     <>
-      {/* {!isFullScreen && (
+      {!isFullScreen && (
         <>
           <div className={styles.slidesContainer}>
             <button
@@ -33,8 +56,8 @@ function Slider () {
             >
               &#10094;
             </button>
-            <div className={imageContainer}>
-              <img src={currentSlide} alt='slide' />
+            <div className={styles.imageContainer}>
+              <img src={images[0]} alt='slide' />
             </div>
             <button
               className={styles.changeSlideButton}
@@ -80,8 +103,8 @@ function Slider () {
       )}
       <div className={fullScreenStyle} onClick={fullScreenHandler}>
         <span>Click anywhere to close</span>
-        <img src={currentSlide} alt='slide' />
-      </div> */}
+        <img src={images[0]} alt='slide' />
+      </div>
     </>
   );
 }
