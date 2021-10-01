@@ -1,81 +1,30 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
-import { images } from './images.js';
-import styles from './Slider.module.sass';
+import React, { useEffect, useReducer } from 'react';
 import 'animate.css';
-
+import { initialState, slidesReducer } from '../../reducers';
+import styles from './Slider.module.sass';
+import ACTION_TYPES from '../../actions/actionTypes';
 function Slider () {
-  const [currentSlideNumber, setCurrentSlideNumber] = useState(0);
-  const [duration, setDuration] = useState(5000);
-  const maxDuration = 10000;
-  const [isPaused, setIsPaused] = useState(false);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const durationHandler = ({ target: { value } }) => {
-    setDuration(value);
-  };
+  const [
+    { duration, maxDuration, isPaused, isFullScreen, images },
+    dispatch,
+  ] = useReducer(slidesReducer, initialState);
 
-  let currentSlide = images[currentSlideNumber];
+  // const fullScreenStyle = classNames(styles.fullScreen, {
+  //   [styles.fullScreenOn]: isFullScreen,
+  //   [styles.emergence]: isFullScreen,
+  // });
 
-  /******* попытка сделать анимацию перехода */
-
-  const [isNextSlide, setIsNextSlide] = useState(false);
-  const [isPrevSlide, setIsPrevSlide] = useState(false);
-  const nextSlideAnimation = 'animate__animated animate__fadeOutLeft';
-  const prevSlideAnimation = 'animate__animated animate__fadeOutRight';
-  const imageContainer = classNames(styles.imageContainer, {
-    [nextSlideAnimation]: isNextSlide,
-    [prevSlideAnimation]: isPrevSlide,
-  });
-
-  const nextSlideHandler = () => {
-    setIsNextSlide(true);
-    setTimeout(() => {
-      setIsNextSlide(false);
-      currentSlideNumber === images.length - 1
-        ? setCurrentSlideNumber(0)
-        : setCurrentSlideNumber(currentSlideNumber + 1);
-    }, 650);
-  };
-
-  const prevSlideHandler = () => {
-    setIsPrevSlide(true);
-    setTimeout(() => {
-      setIsPrevSlide(false);
-      currentSlideNumber === 0
-        ? setCurrentSlideNumber(images.length - 1)
-        : setCurrentSlideNumber(currentSlideNumber - 1);
-    }, 650);
-  };
-
-  /******* Выше экспериментальная разработка. Работает, но с глюками) Кажется, надо разделить стили*/
-
-  const controlHandler = () => {
-    setIsPaused(!isPaused);
-    duration > maxDuration ? setDuration(5000) : setDuration(9999999);
-  };
-
-  const fullScreenHandler = () => {
-    setIsFullScreen(!isFullScreen);
-    if (!isPaused) {
-      controlHandler();
-    }
-  };
-
-  const fullScreenStyle = classNames(styles.fullScreen, {
-    [styles.fullScreenOn]: isFullScreen,
-    [styles.emergence]: isFullScreen,
-  });
-
-  useEffect(() => {
-    const intervalOfChangingSlides = setInterval(nextSlideHandler, duration);
-    return () => {
-      clearInterval(intervalOfChangingSlides);
-    };
-  });
+  // useEffect(() => {
+  //   const intervalOfChangingSlides = setInterval(nextSlideHandler, duration);
+  //   return () => {
+  //     clearInterval(intervalOfChangingSlides);
+  //   };
+  // });
 
   return (
     <>
-      {!isFullScreen && (
+      {/* {!isFullScreen && (
         <>
           <div className={styles.slidesContainer}>
             <button
@@ -132,7 +81,7 @@ function Slider () {
       <div className={fullScreenStyle} onClick={fullScreenHandler}>
         <span>Click anywhere to close</span>
         <img src={currentSlide} alt='slide' />
-      </div>
+      </div> */}
     </>
   );
 }
