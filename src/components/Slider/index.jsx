@@ -11,10 +11,11 @@ import {
 } from '../../actions/actionCreators';
 import ControlPanel from '../ControlPanel';
 import SlidesContainer from '../SlidesContainer';
+import { images } from './images';
 
 function Slider () {
   const [
-    { duration, maxDuration, isPaused, isFullScreen, images },
+    { duration, maxDuration, isPaused, isFullScreen, currentImageIndex },
     dispatch,
   ] = useReducer(slidesReducer, initialState);
 
@@ -51,7 +52,7 @@ function Slider () {
       {!isFullScreen && (
         <>
           <SlidesContainer
-            images={images}
+            currentImageIndex={currentImageIndex}
             handlers={[prevSlideHandler, nextSlideHandler]}
           />
           <ControlPanel
@@ -62,7 +63,7 @@ function Slider () {
       )}
       <div className={fullScreenStyle} onClick={fullScreenHandler}>
         <span>Click anywhere to close</span>
-        <img src={images[0]} alt='slide' />
+        <img src={images[currentImageIndex]} alt='slide' />
       </div>
     </>
   );

@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './SlidesContainer.module.sass';
+import { images } from '../Slider/images';
 
 function SlidesContainer (props) {
   const {
-    images,
+    currentImageIndex,
     handlers: [prevSlideHandler, nextSlideHandler],
   } = props;
 
@@ -13,7 +14,7 @@ function SlidesContainer (props) {
         &#10094;
       </button>
       <div className={styles.imageContainer}>
-        <img src={images[0]} alt='slide' />
+        <img src={images[currentImageIndex]} alt='slide' />
       </div>
       <button className={styles.changeSlideButton} onClick={nextSlideHandler}>
         &#10095;
